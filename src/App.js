@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Todo from './components/Todo'
+import * as helper from './helper'
+import Can from './Can';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+  constructor(props) {
+    super(props)
+    helper.setUsers()
+
+    this.state = {
+      users: helper.getUsers()
+    }
+  }
+  
+  render() {
+    return (
+      <div className="App">
+        <div>
+          signin as: <span>
+            <select>
+              {this.state.users.map((user, i) => (
+                <option key={i} value={user.user_id}>{user.name}</option>
+              ))}
+            </select>
+          </span>
+        </div>
+        <Todo />
+      </div>
+    );
+  }
 }
-
-export default App;
