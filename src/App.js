@@ -1,7 +1,6 @@
 import React from 'react';
 import Todo from './components/Todo'
 import * as helper from './helper'
-import Can from './Can';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -12,15 +11,20 @@ export default class App extends React.Component {
       users: helper.getUsers()
     }
   }
-  
+
+  handleChangeUser = e => {
+    e.persist()
+    localStorage.setItem('user', e.target.value)
+  }
+
   render() {
     return (
       <div className="App">
         <div>
           signin as: <span>
-            <select>
+            <select onChange={this.handleChangeUser}>
               {this.state.users.map((user, i) => (
-                <option key={i} value={user.user_id}>{user.name}</option>
+                <option key={i} value={JSON.stringify(user)}>{user.name}</option>
               ))}
             </select>
           </span>

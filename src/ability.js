@@ -1,6 +1,14 @@
 import { AbilityBuilder } from '@casl/ability'
- 
-export default AbilityBuilder.define(can => {
-  can('read', 'all')
-  // ....
+
+function subjectName(item) {
+  if (!item || typeof item === 'string') {
+    return item
+  }
+
+  return item.__type
+}
+
+export default AbilityBuilder.define({ subjectName }, can => {
+  can(['read', 'create'], 'Todo')
+  can(['update', 'delete'], 'Todo', { user_id: JSON.parse(localStorage.getItem('user')).user_id })
 })

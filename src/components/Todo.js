@@ -11,9 +11,15 @@ export default class Todo extends React.Component {
   submit = todo => {
     this.setState(prev => ({
       todos: prev.todos.concat(todo)
-    }))
+    }), () => {
+      helper.post(this.state.todos)
+    })
+  }
 
-    helper.post(this.state.todos)
+  delete = todo => {
+    this.setState(prev => ({
+      todos: prev.todos.filter(tod => tod !== todo)
+    }))
   }
 
   render() {
@@ -21,7 +27,7 @@ export default class Todo extends React.Component {
       <>
         <h4>Todo List</h4>
         <TodoInput submit={this.submit} />
-        <TodoList items={this.state.todos} />
+        <TodoList items={this.state.todos} delete={this.delete} />
       </>
     )
   }
